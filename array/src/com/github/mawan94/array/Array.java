@@ -16,7 +16,7 @@ public class Array<E> {
     }
 
     /**
-     * // 无参数的构造函数，默认数组的容量capacity=10
+     * 无参数的构造函数，默认数组的容量capacity=10
      */
     public Array() {
         this(10);
@@ -184,7 +184,6 @@ public class Array<E> {
 
     @Override
     public String toString() {
-
         StringBuilder res = new StringBuilder();
         res.append(String.format("Array: size = %d , capacity = %d\n", size, data.length));
         res.append('[');
