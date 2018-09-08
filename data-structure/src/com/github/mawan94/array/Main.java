@@ -1,4 +1,5 @@
-import com.github.mawan94.array.Array;
+package com.github.mawan94.array;
+
 
 public class Main {
     public static void main(String[] args) {
