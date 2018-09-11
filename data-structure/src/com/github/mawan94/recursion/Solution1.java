@@ -22,9 +22,7 @@ public class Solution1 {
 
     public ListNode removeElements(ListNode head, int val) {
         while (head != null && head.val == val) {
-            ListNode delNode = head;
             head = head.next;
-            delNode.next = null;
         }
 
         if (head == null)
@@ -33,9 +31,7 @@ public class Solution1 {
         ListNode prev = head;
         while (prev.next != null) {
             if (prev.next.val == val) {
-                ListNode delNode = prev.next;
-                prev.next = delNode.next;
-                delNode.next = null;
+                prev.next = prev.next.next;
             } else {
                 prev = prev.next;
             }
@@ -44,4 +40,13 @@ public class Solution1 {
 
     }
 
+    public static void main(String[] args) {
+
+        int[] nums = {1, 2, 6, 3, 4, 5, 6};
+        ListNode head = new ListNode(nums);
+        System.out.println(head);
+
+        ListNode res = (new Solution1()).removeElements(head, 6);
+        System.out.println(res);
+    }
 }
