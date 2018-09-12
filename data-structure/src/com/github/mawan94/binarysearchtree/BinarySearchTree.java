@@ -31,12 +31,13 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     // 向二分搜索树添加元素e
     public void add(E e) {
-        if (root == null) {
-            root = new Node(e);
-            size++;
-        } else {
-            add(root, e);
-        }
+//        if (root == null) {
+//            root = new Node(e);
+//            size++;
+//        } else {
+//            add(root, e);
+//        }
+        root = add(root, e);
     }
 
     // 向以node为根的二分搜索树中插入元素e，递归算法
