@@ -1,15 +1,20 @@
 package com.github.mawan94.binarysearchtree;
 
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class BinarySearchTree<E extends Comparable<E>> {
 
     private class Node {
         public E e;
-        public Node left, righr;
+        public Node left, right;
 
         public Node(E e) {
             this.e = e;
             left = null;
-            righr = null;
+            right = null;
         }
     }
 
@@ -49,8 +54,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
 //            node.left = new Node(e);
 //            size++;
 //            return;
-//        } else if (e.compareTo(node.e) > 0 && node.righr == null) {
-//            node.righr = new Node(e);
+//        } else if (e.compareTo(node.e) > 0 && node.right == null) {
+//            node.right = new Node(e);
 //            size++;
 //            return;
 //        }
@@ -58,7 +63,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 //        if (e.compareTo(node.e) < 0)
 //            add(node.left, e);
 //        else
-//            add(node.righr, e);
+//            add(node.right, e);
 
         if (node == null) {
             size++;
@@ -67,7 +72,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         if (e.compareTo(node.e) < 0) {
             node.left = add(node.left, e);
         } else if (e.compareTo(node.e) > 0) {
-            node.righr = add(node.righr, e);
+            node.right = add(node.right, e);
         }
         return node;
     }
@@ -90,7 +95,193 @@ public class BinarySearchTree<E extends Comparable<E>> {
             return contains(node.left, e);
 
         else
-            return contains(node.righr, e);
+            return contains(node.right, e);
+    }
 
+    // 二分搜索树的前序遍历
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    // 前序遍历以node为根的二分搜索树, 递归算法
+    private void preOrder(Node node) {
+        if (node == null)
+            return;
+
+        System.out.println(node.e);
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+    // 二分搜索树的中序遍历
+    public void inOrder() {
+        inOrder(root);
+    }
+
+    // 中序遍历以node为根的二分搜索树, 递归算法
+    private void inOrder(Node node) {
+        if (node == null)
+            return;
+
+        inOrder(node.left);
+        System.out.println(node.e);
+        inOrder(node.right);
+    }
+
+    // 二分搜索树的后序遍历
+    public void postOrder() {
+        postOrder(root);
+    }
+
+    // 后序遍历以node为根的二分搜索树, 递归算法
+    private void postOrder(Node node) {
+
+        if (node == null)
+            return;
+
+        inOrder(node.left);
+        inOrder(node.right);
+        System.out.println(node.e);
+    }
+
+    // 二分搜索树的非递归前序遍历
+    public void preOrderNR() {
+
+        if (root == null)
+            return;
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node cur = stack.pop();
+            System.out.println(cur.e);
+
+            if (cur.right != null)
+                stack.push(cur.right);
+            if (cur.left != null)
+                stack.push(cur.left);
+        }
+    }
+
+    // 二分搜索树的层序遍历
+    public void levelOrder() {
+        if (root == null)
+            return;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            Node cur = q.remove();
+            System.out.println(cur.e);
+
+            if (cur.left != null)
+                q.add(root.left);
+            if (cur.right != null)
+                q.add(root.right);
+        }
+    }
+
+    // 寻找二分搜索树的最小元素
+    public E minimum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BinarySearchTree is empty");
+
+        Node minNode = minimum(root);
+        return minNode.e;
+    }
+
+    // 返回以node为根的二分搜索树的最小值所在的节点
+    private Node minimum(Node node) {
+        if (node.left == null)
+            return node;
+
+        return minimum(node.left);
+    }
+
+
+    // 寻找二分搜索树的最大元素
+    public E maximum() {
+        if (size == 0)
+            throw new IllegalArgumentException("BinarySearchTree is empty");
+
+        return maximum(root).e;
+    }
+
+    // 返回以node为根的二分搜索树的最大值所在的节点
+    private Node maximum(Node node) {
+        if (node.right == null)
+            return node;
+
+        return maximum(node.right);
+    }
+
+    // 从二分搜索树中删除最小值所在节点, 返回最小值
+    public E removeMin() {
+        E ret = minimum();
+        root = removeMin(root);
+        return ret;
+    }
+
+    // 删除掉以node为根的二分搜索树中的最小节点
+    // 返回删除节点后新的二分搜索树的根
+    private Node removeMin(Node node) {
+
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    // 从二分搜索树中删除最大值所在节点
+    public E removeMax() {
+        E ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    // 删除掉以node为根的二分搜索树中的最大节点
+    // 返回删除节点后新的二分搜索树的根
+    private Node removeMax(Node node) {
+
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBinarySearchTreeStr(root, 0, res);
+        return res.toString();
+    }
+
+    // 生成以node为根节点，深度为depth的描述二叉树的字符串
+    public void generateBinarySearchTreeStr(Node node, int depth, StringBuilder res) {
+        if (node == null) {
+            res.append(generateDepthStr(depth) + "NULL\n");
+            return;
+        }
+
+        res.append(generateDepthStr(depth) + node.e + "\n");
+        generateBinarySearchTreeStr(node.left, depth + 1, res);
+        generateBinarySearchTreeStr(node.right, depth + 1, res);
+    }
+
+    private String generateDepthStr(int depth) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < depth; i++) {
+            res.append("--");
+        }
+        return res.toString();
     }
 }
