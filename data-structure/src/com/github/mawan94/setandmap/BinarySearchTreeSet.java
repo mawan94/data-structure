@@ -10,6 +10,8 @@
  */
 package com.github.mawan94.setandmap;
 
+import com.github.mawan94.binarysearchtree.BinarySearchTree;
+
 /**
  * 〈功能简述〉<br>
  * 〈〉
